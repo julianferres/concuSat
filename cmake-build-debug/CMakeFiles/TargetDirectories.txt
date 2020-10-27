@@ -1,0 +1,3 @@
+/home/julian/FIUBA/Concurrentes/ConcuSat/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/julian/FIUBA/Concurrentes/ConcuSat/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/julian/FIUBA/Concurrentes/ConcuSat/cmake-build-debug/CMakeFiles/concuSat.dir

@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/concuSat.dir/config/Config.cpp.o CMakeFiles/concuSat.dir/main.cpp.o  -o concuSat 

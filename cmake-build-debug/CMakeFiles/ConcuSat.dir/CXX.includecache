@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/julian/FIUBA/Concurrentes/ConcuSat/config/Config.h
+../logger/Logger.h
+/home/julian/FIUBA/Concurrentes/ConcuSat/logger/Logger.h
+
+/home/julian/FIUBA/Concurrentes/ConcuSat/logger/Logger.h
+
+/home/julian/FIUBA/Concurrentes/ConcuSat/main.cpp
+iostream
+-
+cstring
+-
+config/Config.h
+/home/julian/FIUBA/Concurrentes/ConcuSat/config/Config.h
+
