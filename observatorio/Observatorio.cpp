@@ -2,6 +2,7 @@
 // Created by julian on 10/27/20.
 //
 #include<iostream>
+using namespace std;
 
 #include "Observatorio.h"
 
@@ -12,8 +13,9 @@ Observatorio::Observatorio(const Config& config){
 Observatorio::~Observatorio(){}
 
 void Observatorio::simular() {
-    std::cout << this ->c << " " << this->N << std::endl;
+    cout << "Todo por ahora\n";
 }
+
 
 
 

@@ -22,12 +22,6 @@ config/Config.h
 observatorio/Observatorio.h
 /home/julian/FIUBA/Concurrentes/concuSat/observatorio/Observatorio.h
 
-/home/julian/FIUBA/Concurrentes/concuSat/observatorio/Observatorio.cpp
-iostream
--
-Observatorio.h
-/home/julian/FIUBA/Concurrentes/concuSat/observatorio/Observatorio.h
-
 /home/julian/FIUBA/Concurrentes/concuSat/observatorio/Observatorio.h
 ../config/Config.h
 /home/julian/FIUBA/Concurrentes/concuSat/config/Config.h

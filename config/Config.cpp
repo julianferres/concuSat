@@ -8,7 +8,10 @@ Config::Config() = default;
 Config::~Config() = default;
 
 void Config::setearBondad(bool bondad) {
-    this->bondadDeParams = bondad && (this->c > 0 || this->N > 0);
+    this->bondadDeParams = bondad && ( this->c > 0 &&
+                                       this->N > 0 &&
+                                       0 <= this->modoDebug &&
+                                       this->modoDebug <= 1 );
 }
 
 void Config::setearCamaras(int camaras){

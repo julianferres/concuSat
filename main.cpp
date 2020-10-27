@@ -6,10 +6,11 @@
 
 using namespace std;
 
-const string DESCRIPCION_DE_PARAMS = "Uso: ./concuSat -c $CANTIDAD_DE_CAMARAS -N $TAMANIO_GRILLA -debug $MODO_DEBUG\n"\
+const string MSG_PARAMS_INVALIDOS  = "El formato de los parametros ingresados no es valido!\n";
+const string DESCRIPCION_DE_PARAMS = "Uso: ./concuSat -c $CANTIDAD_DE_CAMARAS -N $TAMAÑO_GRILLA -debug $MODO_DEBUG\n"\
                                      "Descripcion de Parametros:\n"\
                                      " - CANTIDAD_DE_CAMARAS: (Numero entero mayor que 0) Cantidad de camaras a utilizar\n"\
-                                     " - TAMANIO_GRILLA: (Numero entero mayor que 0) Dimensiones de las fotografias a tomar y procesar\n"\
+                                     " - TAMAÑO_GRILLA: (Numero entero mayor que 0) Dimensiones de las fotografias a tomar y procesar\n"\
                                      " - MODO_DEBUG: (Valor 0 o 1) Para indicar si se quiere ejecutar en 'modo logger'\n";
 
 const int PARAMETROS_ESPERADOS = 6;
@@ -46,12 +47,12 @@ int main(int argc, char *argv[]) {
     int cantidadDeParams = contadorDeParams(argv);
 
     if(cantidadDeParams != PARAMETROS_ESPERADOS) {
-        cout << DESCRIPCION_DE_PARAMS;
+        cout << MSG_PARAMS_INVALIDOS << DESCRIPCION_DE_PARAMS;
         return 0;
     }
     Config config = llenarParams(argv);
     if(!config.chequearBondadParams()) {
-        cout << DESCRIPCION_DE_PARAMS;
+        cout << MSG_PARAMS_INVALIDOS << DESCRIPCION_DE_PARAMS;
         return 0;
     } else {
         Observatorio observatorio(config);
