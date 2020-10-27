@@ -9,6 +9,8 @@ add_executable(
         concuSat
         config/Config.cpp
         config/Config.h
+        observatorio/Observatorio.cpp
+        observatorio/Observatorio.h
         main.cpp
 
 )

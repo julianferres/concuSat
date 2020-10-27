@@ -4,8 +4,8 @@
 
 #include "Config.h"
 
-Config::Config() {}
-Config::~Config() {}
+Config::Config() = default;
+Config::~Config() = default;
 
 void Config::setearBondad(bool bondad) {
     this->bondadDeParams = bondad && (this->c > 0 || this->N > 0);
@@ -18,10 +18,18 @@ void Config::setearDimensiones(int dimensiones) {
     this->N = dimensiones;
 }
 
-void Config::setearModoDebug(int modoDebug) {
-    this->modoDebug = modoDebug;
+int Config::obtenerCamaras() const {
+    return this->c;
 }
 
-bool Config::chequearBondadParams(){
+int Config::obtenerDimensiones() const {
+    return this->N;
+}
+
+void Config::setearModoDebug(int modoDbg) {
+    this->modoDebug = modoDbg;
+}
+
+bool Config::chequearBondadParams() const{
     return this->bondadDeParams;
 }

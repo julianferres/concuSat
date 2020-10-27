@@ -6,5 +6,5 @@ CXX_FLAGS = -g   -std=gnu++17
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/julian/FIUBA/Concurrentes/ConcuSat/config 
+CXX_INCLUDES = -I/home/julian/FIUBA/Concurrentes/concuSat/config 
 

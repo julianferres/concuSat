@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cstring>
 #include "config/Config.h"
+#include "observatorio/Observatorio.h"
 
 
 using namespace std;
@@ -47,21 +48,16 @@ int main(int argc, char *argv[]) {
     if(cantidadDeParams != PARAMETROS_ESPERADOS) {
         cout << DESCRIPCION_DE_PARAMS;
         return 0;
-    } else {
-        Config config = llenarParams(argv);
-        if(!config.chequearBondadParams()) {
-            cout << "Hola";
-            cout << DESCRIPCION_DE_PARAMS;
-            return 0;
-        } else {
-//            Logging::Inicializar(config.obtenerNivelDeLogging());
-//            LOG_INFO("Configuracion correctamente introducida.");
-//            Panaderia panaderia(config);
-//            panaderia.comenzarSimulacion();
-//            LOG_INFO("Simulacion terminada.");
-            cout << "Salio todo bien\n";
-        }
     }
+    Config config = llenarParams(argv);
+    if(!config.chequearBondadParams()) {
+        cout << DESCRIPCION_DE_PARAMS;
+        return 0;
+    } else {
+        Observatorio observatorio(config);
+        observatorio.simular();
+    }
+
 
 //    Logging::Finalizar();
 

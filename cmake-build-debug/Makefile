@@ -68,10 +68,10 @@ RM = /home/julian/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/202.6948.80/bin
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/julian/FIUBA/Concurrentes/ConcuSat
+CMAKE_SOURCE_DIR = /home/julian/FIUBA/Concurrentes/concuSat
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/julian/FIUBA/Concurrentes/ConcuSat/cmake-build-debug
+CMAKE_BINARY_DIR = /home/julian/FIUBA/Concurrentes/concuSat/cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -100,9 +100,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/julian/FIUBA/Concurrentes/ConcuSat/cmake-build-debug/CMakeFiles /home/julian/FIUBA/Concurrentes/ConcuSat/cmake-build-debug/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/julian/FIUBA/Concurrentes/concuSat/cmake-build-debug/CMakeFiles /home/julian/FIUBA/Concurrentes/concuSat/cmake-build-debug/CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/julian/FIUBA/Concurrentes/ConcuSat/cmake-build-debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/julian/FIUBA/Concurrentes/concuSat/cmake-build-debug/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -197,6 +197,33 @@ main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/concuSat.dir/build.make CMakeFiles/concuSat.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+observatorio/Observatorio.o: observatorio/Observatorio.cpp.o
+
+.PHONY : observatorio/Observatorio.o
+
+# target to build an object file
+observatorio/Observatorio.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/concuSat.dir/build.make CMakeFiles/concuSat.dir/observatorio/Observatorio.cpp.o
+.PHONY : observatorio/Observatorio.cpp.o
+
+observatorio/Observatorio.i: observatorio/Observatorio.cpp.i
+
+.PHONY : observatorio/Observatorio.i
+
+# target to preprocess a source file
+observatorio/Observatorio.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/concuSat.dir/build.make CMakeFiles/concuSat.dir/observatorio/Observatorio.cpp.i
+.PHONY : observatorio/Observatorio.cpp.i
+
+observatorio/Observatorio.s: observatorio/Observatorio.cpp.s
+
+.PHONY : observatorio/Observatorio.s
+
+# target to generate assembly for a file
+observatorio/Observatorio.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/concuSat.dir/build.make CMakeFiles/concuSat.dir/observatorio/Observatorio.cpp.s
+.PHONY : observatorio/Observatorio.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -212,6 +239,9 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... observatorio/Observatorio.o"
+	@echo "... observatorio/Observatorio.i"
+	@echo "... observatorio/Observatorio.s"
 .PHONY : help
 
 

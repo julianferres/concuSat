@@ -8,4 +8,10 @@ CMakeFiles/concuSat.dir/config/Config.cpp.o: ../logger/Logger.h
 CMakeFiles/concuSat.dir/main.cpp.o: ../config/Config.h
 CMakeFiles/concuSat.dir/main.cpp.o: ../logger/Logger.h
 CMakeFiles/concuSat.dir/main.cpp.o: ../main.cpp
+CMakeFiles/concuSat.dir/main.cpp.o: ../observatorio/Observatorio.h
+
+CMakeFiles/concuSat.dir/observatorio/Observatorio.cpp.o: ../config/Config.h
+CMakeFiles/concuSat.dir/observatorio/Observatorio.cpp.o: ../logger/Logger.h
+CMakeFiles/concuSat.dir/observatorio/Observatorio.cpp.o: ../observatorio/Observatorio.cpp
+CMakeFiles/concuSat.dir/observatorio/Observatorio.cpp.o: ../observatorio/Observatorio.h
 

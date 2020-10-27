@@ -6,21 +6,29 @@
 
 #IncludeRegexTransform: 
 
-/home/julian/FIUBA/Concurrentes/ConcuSat/config/Config.cpp
-Config.h
-/home/julian/FIUBA/Concurrentes/ConcuSat/config/Config.h
-
-/home/julian/FIUBA/Concurrentes/ConcuSat/config/Config.h
+/home/julian/FIUBA/Concurrentes/concuSat/config/Config.h
 ../logger/Logger.h
-/home/julian/FIUBA/Concurrentes/ConcuSat/logger/Logger.h
+/home/julian/FIUBA/Concurrentes/concuSat/logger/Logger.h
 
-/home/julian/FIUBA/Concurrentes/ConcuSat/logger/Logger.h
+/home/julian/FIUBA/Concurrentes/concuSat/logger/Logger.h
 
-/home/julian/FIUBA/Concurrentes/ConcuSat/main.cpp
+/home/julian/FIUBA/Concurrentes/concuSat/main.cpp
 iostream
 -
 cstring
 -
 config/Config.h
-/home/julian/FIUBA/Concurrentes/ConcuSat/config/Config.h
+/home/julian/FIUBA/Concurrentes/concuSat/config/Config.h
+observatorio/Observatorio.h
+/home/julian/FIUBA/Concurrentes/concuSat/observatorio/Observatorio.h
+
+/home/julian/FIUBA/Concurrentes/concuSat/observatorio/Observatorio.cpp
+iostream
+-
+Observatorio.h
+/home/julian/FIUBA/Concurrentes/concuSat/observatorio/Observatorio.h
+
+/home/julian/FIUBA/Concurrentes/concuSat/observatorio/Observatorio.h
+../config/Config.h
+/home/julian/FIUBA/Concurrentes/concuSat/config/Config.h
 

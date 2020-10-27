@@ -1,6 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/concuSat.dir/config/Config.cpp.o"
   "CMakeFiles/concuSat.dir/main.cpp.o"
+  "CMakeFiles/concuSat.dir/observatorio/Observatorio.cpp.o"
   "concuSat"
   "concuSat.pdb"
 )

@@ -1,4 +1,4 @@
-# Install script for directory: /home/julian/FIUBA/Concurrentes/ConcuSat
+# Install script for directory: /home/julian/FIUBA/Concurrentes/concuSat
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/julian/FIUBA/Concurrentes/ConcuSat/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/julian/FIUBA/Concurrentes/concuSat/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

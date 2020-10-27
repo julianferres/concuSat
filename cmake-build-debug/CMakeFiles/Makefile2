@@ -64,10 +64,10 @@ RM = /home/julian/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/202.6948.80/bin
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/julian/FIUBA/Concurrentes/ConcuSat
+CMAKE_SOURCE_DIR = /home/julian/FIUBA/Concurrentes/concuSat
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/julian/FIUBA/Concurrentes/ConcuSat/cmake-build-debug
+CMAKE_BINARY_DIR = /home/julian/FIUBA/Concurrentes/concuSat/cmake-build-debug
 
 #=============================================================================
 # Directory level rules for the build root directory
@@ -94,14 +94,14 @@ clean: CMakeFiles/concuSat.dir/clean
 CMakeFiles/concuSat.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/concuSat.dir/build.make CMakeFiles/concuSat.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/concuSat.dir/build.make CMakeFiles/concuSat.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/julian/FIUBA/Concurrentes/ConcuSat/cmake-build-debug/CMakeFiles --progress-num=1,2,3 "Built target concuSat"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/julian/FIUBA/Concurrentes/concuSat/cmake-build-debug/CMakeFiles --progress-num=1,2,3,4 "Built target concuSat"
 .PHONY : CMakeFiles/concuSat.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/concuSat.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/julian/FIUBA/Concurrentes/ConcuSat/cmake-build-debug/CMakeFiles 3
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/julian/FIUBA/Concurrentes/concuSat/cmake-build-debug/CMakeFiles 4
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/concuSat.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/julian/FIUBA/Concurrentes/ConcuSat/cmake-build-debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/julian/FIUBA/Concurrentes/concuSat/cmake-build-debug/CMakeFiles 0
 .PHONY : CMakeFiles/concuSat.dir/rule
 
 # Convenience name for target.

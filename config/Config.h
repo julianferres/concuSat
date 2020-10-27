@@ -7,22 +7,28 @@
 
 #include "../logger/Logger.h"
 
+/*
+ * Config se ocupa de recibir los parametros, validar que los mismos sean validos
+ * y se envia al Observatorio para configurar el mismo
+ */
 class Config {
-    public:
-        Config();
-        ~Config();
+public:
+    Config();
+    ~Config();
 
-        void setearBondad(bool bondad);
-        void setearCamaras(int camaras);
-        void setearDimensiones(int dimensiones);
-        void setearModoDebug(int modoDebug);
-        bool chequearBondadParams();
+    void setearBondad(bool bondad);
+    void setearCamaras(int camaras);
+    void setearDimensiones(int dimensiones);
+    [[nodiscard]] int obtenerCamaras() const;
+    [[nodiscard]] int obtenerDimensiones() const;
+    void setearModoDebug(int modoDebug);
+    [[nodiscard]] bool chequearBondadParams() const;
 
-    private:
-        bool bondadDeParams;
-        int c; //Cantidad de camaras
-        int N; //Dimension de las fotos
-        int modoDebug;
+private:
+    bool bondadDeParams{};
+    int c{}; //Cantidad de camaras
+    int N{}; //Dimension de las fotos
+    int modoDebug{};
 };
 
 
