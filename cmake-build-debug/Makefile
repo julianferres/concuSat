@@ -143,6 +143,33 @@ concuSat/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/concuSat.dir/build.make CMakeFiles/concuSat.dir/build
 .PHONY : concuSat/fast
 
+camara/Camara.o: camara/Camara.cpp.o
+
+.PHONY : camara/Camara.o
+
+# target to build an object file
+camara/Camara.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/concuSat.dir/build.make CMakeFiles/concuSat.dir/camara/Camara.cpp.o
+.PHONY : camara/Camara.cpp.o
+
+camara/Camara.i: camara/Camara.cpp.i
+
+.PHONY : camara/Camara.i
+
+# target to preprocess a source file
+camara/Camara.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/concuSat.dir/build.make CMakeFiles/concuSat.dir/camara/Camara.cpp.i
+.PHONY : camara/Camara.cpp.i
+
+camara/Camara.s: camara/Camara.cpp.s
+
+.PHONY : camara/Camara.s
+
+# target to generate assembly for a file
+camara/Camara.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/concuSat.dir/build.make CMakeFiles/concuSat.dir/camara/Camara.cpp.s
+.PHONY : camara/Camara.cpp.s
+
 config/Config.o: config/Config.cpp.o
 
 .PHONY : config/Config.o
@@ -233,6 +260,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... concuSat"
+	@echo "... camara/Camara.o"
+	@echo "... camara/Camara.i"
+	@echo "... camara/Camara.s"
 	@echo "... config/Config.o"
 	@echo "... config/Config.i"
 	@echo "... config/Config.s"

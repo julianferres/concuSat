@@ -26,6 +26,7 @@ Config llenarParams(char *argv[]){
         config.setearCamaras(stoi(argv[2]));
         config.setearDimensiones(stoi(argv[4]));
         config.setearModoDebug(stoi(argv[6]));
+
         config.setearBondad(true);
         } catch (const invalid_argument &e) {
             cout << e.what() << "\n";
@@ -51,6 +52,7 @@ int main(int argc, char *argv[]) {
         return 0;
     }
     Config config = llenarParams(argv);
+
     if(!config.chequearBondadParams()) {
         cout << MSG_PARAMS_INVALIDOS << DESCRIPCION_DE_PARAMS;
         return 0;

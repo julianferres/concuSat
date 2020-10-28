@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/concuSat.dir/camara/Camara.cpp.o"
   "CMakeFiles/concuSat.dir/config/Config.cpp.o"
   "CMakeFiles/concuSat.dir/main.cpp.o"
   "CMakeFiles/concuSat.dir/observatorio/Observatorio.cpp.o"

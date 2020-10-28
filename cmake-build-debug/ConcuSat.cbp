@@ -84,6 +84,12 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/home/julian/FIUBA/Concurrentes/concuSat/camara/Camara.cpp">
+			<Option target="concuSat"/>
+		</Unit>
+		<Unit filename="/home/julian/FIUBA/Concurrentes/concuSat/camara/Camara.h">
+			<Option target="concuSat"/>
+		</Unit>
 		<Unit filename="/home/julian/FIUBA/Concurrentes/concuSat/config/Config.cpp">
 			<Option target="concuSat"/>
 		</Unit>
