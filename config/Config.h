@@ -22,6 +22,7 @@ public:
     [[nodiscard]] int obtenerCamaras() const;
     [[nodiscard]] int obtenerDimensiones() const;
     void setearModoDebug(int modoDebug);
+    [[nodiscard]] int obtenerModoDebug() const;
     [[nodiscard]] bool chequearBondadParams() const;
 
 private:

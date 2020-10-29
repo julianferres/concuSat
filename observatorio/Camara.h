@@ -4,7 +4,7 @@
 
 #include <vector>
 #include <cstdlib> //For rand()
-#include "../config/Config.h"
+#include "Config.h"
 using namespace std;
 
 #ifndef CONCUSAT_CAMARA_H
@@ -13,7 +13,7 @@ using namespace std;
 
 class Camara {
 public:
-    Camara(int dimensiones);
+    explicit Camara(int dimensiones);
     ~Camara();
     vector<vector<int>> tomarFoto();
 

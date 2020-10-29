@@ -2,6 +2,7 @@
 #include <cstring>
 #include "config/Config.h"
 #include "observatorio/Observatorio.h"
+#include "logger/Logger.h"
 
 
 using namespace std;
@@ -26,12 +27,12 @@ Config llenarParams(char *argv[]){
         config.setearCamaras(stoi(argv[2]));
         config.setearDimensiones(stoi(argv[4]));
         config.setearModoDebug(stoi(argv[6]));
+        config.setearBondad(true); //Bondad es bool y tiene la info de la validez de los parametros
 
-        config.setearBondad(true);
-        } catch (const invalid_argument &e) {
+    } catch (const invalid_argument &e) {
             cout << e.what() << "\n";
             config.setearBondad(false);
-        }
+    }
     return config;
 }
 
@@ -54,15 +55,14 @@ int main(int argc, char *argv[]) {
     Config config = llenarParams(argv);
 
     if(!config.chequearBondadParams()) {
+        //Problemas con los parametros
         cout << MSG_PARAMS_INVALIDOS << DESCRIPCION_DE_PARAMS;
         return 0;
-    } else {
-        Observatorio observatorio(config);
-        observatorio.simular();
     }
+    Logger logger(config.obtenerModoDebug());
+    Observatorio observatorio(config);
+    observatorio.simular();
 
-
-//    Logging::Finalizar();
-
+    logger.terminar();
     return 0;
 }

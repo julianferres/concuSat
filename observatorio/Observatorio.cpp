@@ -5,11 +5,11 @@
 using namespace std;
 
 #include "Observatorio.h"
-#include "../camara/Camara.h"
+#include "../observatorio/Camara.h"
 
 Observatorio::Observatorio(const Config& config){
-    this->c = config.obtenerCamaras();
-    this->N = config.obtenerDimensiones();
+    c = config.obtenerCamaras();
+    N = config.obtenerDimensiones();
 }
 Observatorio::~Observatorio()= default;
 

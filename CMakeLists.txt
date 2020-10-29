@@ -11,8 +11,9 @@ add_executable(
         config/Config.h
         observatorio/Observatorio.cpp
         observatorio/Observatorio.h
-        camara/Camara.cpp
-        camara/Camara.h
+        observatorio/Camara.cpp
+        observatorio/Camara.h
+        logger/Logger.cpp
+        logger/Logger.h
         main.cpp
-
 )
