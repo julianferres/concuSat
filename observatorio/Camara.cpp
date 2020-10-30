@@ -4,7 +4,7 @@
 
 #include "Camara.h"
 
-const int MAXIMO_VALOR_PIXEL = 10000;
+const int MAXIMO_VALOR_PIXEL = 10;
 
 vector<vector<int>> Camara::tomarFoto(){
     vector<vector<int>> foto(N, vector<int>(N));

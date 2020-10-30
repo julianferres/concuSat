@@ -9,11 +9,9 @@ add_executable(
         concuSat
         config/Config.cpp
         config/Config.h
-        observatorio/Observatorio.cpp
-        observatorio/Observatorio.h
-        observatorio/Camara.cpp
-        observatorio/Camara.h
-        logger/Logger.cpp
-        logger/Logger.h
+        observatorio/Observatorio.cpp observatorio/Observatorio.h
+        observatorio/Camara.cpp observatorio/Camara.h
+        logger/Logger.cpp logger/Logger.h
+        observatorio/Ajustador.cpp observatorio/Ajustador.h
         main.cpp
 )
