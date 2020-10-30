@@ -27,28 +27,27 @@ class Logger {
 public:
 
 //    Inicializa el log con el nivel debug introducido (INFO = 0, DEBUG = 1)
-    explicit Logger(int _modoDebug);
-    ~Logger();
+    static void iniciar(int _modoDebug);
 
 //    Indica que terminó el proceso de log
-    void terminar();
+    static void terminar();
+
 //    Funcion para escribir en el archivo de log
-    void escribir(int modoDebug, string msg, string archivo, long linea);
+    static void escribir(int modoDebug, string msg, string archivo, long linea);
 
 //    Saca el path del archivo, dejando solo el nombre y la extension
     static string limpiarPathArchivo(const string& nombreArchivo);
 
 
 private:
-    int modoDebug;
-    vector<string> nivelLogStrings;
+    static int modoDebug;
 
 //    Obtiene un string con el tiempo que luego sera agregado cuando se logee una linea.
     static string obtenerTimestamp();
 
-    vector<string> stringsLoggerType;
-    string rutaArchivoLog;
-    ofstream outstream;
+    static vector<string> stringsLoggerType;
+    static string rutaArchivoLog;
+    static ofstream outstream;
 };
 
 

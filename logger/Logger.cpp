@@ -6,16 +6,19 @@
 
 using namespace std;
 
-Logger::Logger(int _modoDebug){
-//    LOG_INFO("Iniciando log.");
+//Declaro las variables de clase
+string Logger::rutaArchivoLog = "concuSat.log";
+ofstream Logger::outstream;
+vector<string> Logger::stringsLoggerType;
+int Logger::modoDebug;
+
+void Logger::iniciar(int _modoDebug){
     stringsLoggerType = {"INFO", "DEBUG"};
-//    Logger::espaciado = 20;
     rutaArchivoLog = "concuSat.log";
     outstream.open(rutaArchivoLog, ios::out);
+    LOG_INFO("Iniciando log.");
     modoDebug = _modoDebug;
 }
-
-Logger::~Logger() = default;
 
 //Cierro el archivo que tengo abierto para log, y termino
 void Logger::terminar(){
@@ -57,7 +60,7 @@ string Logger::limpiarPathArchivo(const string& pathArchivo){
     for(char c: pathArchivo){
         nombreArchivo += c;
         if(c == '/') nombreArchivo = "";
-        //Tiro lo anterior al caracter separador de carpetas en linux
+        //Desecho lo anterior al caracter separador de carpetas en linux
     }
     return nombreArchivo;
 }

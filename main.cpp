@@ -59,10 +59,10 @@ int main(int argc, char *argv[]) {
         cout << MSG_PARAMS_INVALIDOS << DESCRIPCION_DE_PARAMS;
         return 0;
     }
-    Logger logger(config.obtenerModoDebug());
+    Logger::iniciar(config.obtenerModoDebug());
     Observatorio observatorio(config);
-    observatorio.simular();
+    observatorio.ronda();
 
-    logger.terminar();
+    Logger::terminar();
     return 0;
 }
