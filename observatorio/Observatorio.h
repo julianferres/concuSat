@@ -12,6 +12,7 @@ typedef vector<vector<vector<int>>> vvvi;
 #include "../config/Config.h"
 #include "../observatorio/Camara.h"
 #include "../logger/Logger.h"
+#include "Ajustador.h"
 
 
 #ifndef CONCUSAT_OBSERVATORIO_H

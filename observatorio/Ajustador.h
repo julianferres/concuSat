@@ -11,7 +11,7 @@ using namespace std;
 class Ajustador {
 
 public:
-    vector<vector<int>> ajustar(vector<vector<int>> imagen);
+    static vector<vector<int>> ajustar(vector<vector<int>> imagen);
 
 
 };

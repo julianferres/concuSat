@@ -43,13 +43,22 @@ void Observatorio::ronda() {
 
     for(int nCamara = 0; nCamara < c; nCamara++){
         Camara camara(N);
-        vector<vector<int>> imagenAct = camara.tomarFoto();
+        vector<vector<int>> imagen = camara.tomarFoto();
+        vector<vector<int>> imagenAjustada = Ajustador::ajustar(imagen);
 
         for(int fila = 0; fila < N; fila++)
             for(int col = 0; col < N; col++)
-                cout << imagenAct[fila][col] << " \n" [col == N - 1];
+                cout << imagen[fila][col] << " \n" [col == N - 1];
         cout << "\n";
-        imagenes.push_back(imagenAct);
+
+        for(int fila = 0; fila < N; fila++)
+            for(int col = 0; col < N; col++)
+                cout << imagenAjustada[fila][col] << " \n" [col == N - 1];
+        cout << "\n";
+
+        cout << "--------------------------------------\n";
+
+        imagenes.push_back(imagen);
     }
 
     aplanar(imagenes);
