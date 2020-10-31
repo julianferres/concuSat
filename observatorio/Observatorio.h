@@ -2,8 +2,9 @@
 // Created by julian on 10/27/20.
 //
 
-#include<iostream>
-#include<vector>
+#include <iostream>
+#include <vector>
+#include <unistd.h>
 using namespace std;
 
 typedef vector<vector<vector<int>>> vvvi;
@@ -35,7 +36,7 @@ public:
 //    Dentro de este metodo se produce la toma de fotos (mediante la clase camara),
 //    La creacion de diferentes procesos para ajustar cada una de las imagenes resultantes,
 //    y el posterior aplando de la imagen
-    void ronda();
+    void ronda(long long numeroRonda);
 
 //    Este metodo recibe las imagenes ajustadas (de tamano NxN) y se ocupa
 //    de emplear un algortimo que las combine (o aplane), retornando por stdout el

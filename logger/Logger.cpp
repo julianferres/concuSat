@@ -17,6 +17,7 @@ void Logger::iniciar(int _modoDebug){
     rutaArchivoLog = "concuSat.log";
     outstream.open(rutaArchivoLog, ios::out);
     LOG_INFO("Iniciando log.");
+    LOG_DEBUG("Iniciando log DEBUG.");
     modoDebug = _modoDebug;
 }
 
@@ -35,11 +36,12 @@ void Logger::escribir(int _modoDebug, string msg, string archivo, long linea) {
     // alinear [INFO] y [DEBUG], el nombre y linea de archivo
     // la hora y el mensaje
     string timestamp = obtenerTimestamp();
-    int largoMetadata = stringsLoggerType[_modoDebug].size() + timestamp.size();
+    string nombreArchivo = limpiarPathArchivo(archivo);
+    int largoMetadata = stringsLoggerType[_modoDebug].size()+ nombreArchivo.size();
     string padding(AJUSTE - largoMetadata + _modoDebug, ' ');
 
     outstream << "[" << stringsLoggerType[_modoDebug] << "]" << " "[_modoDebug];
-    outstream << " " << limpiarPathArchivo(archivo) << ":" << to_string(linea);
+    outstream << " " << limpiarPathArchivo(nombreArchivo) << ":" << to_string(linea);
     outstream << padding;
     outstream << "(" << timestamp << ") ||";
     outstream << " " << msg << "\n";

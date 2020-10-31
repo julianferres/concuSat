@@ -31,14 +31,19 @@ void Observatorio::aplanar(vvvi imagenes){
 
 }
 
-
-
-
 void Observatorio::simular(){
-    //Hacer cosas hasta sigint
+    LOG_DEBUG("Observatorio. Mi pid es: " + to_string(getpid()));
+
+    for(long long rondas = 0; rondas < 3; rondas++){
+        //Por ahora simulo 3 rondas, despues tnego que hacerlo
+        //Infinito y cerrarlo con SIGINT
+        ronda(rondas);
+
+    }
 }
 
-void Observatorio::ronda() {
+void Observatorio::ronda(long long numeroRonda) {
+    LOG_INFO("Comenzando ronda numero " + to_string(numeroRonda));
     vvvi imagenes;
 
     for(int nCamara = 0; nCamara < c; nCamara++){

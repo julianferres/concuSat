@@ -61,7 +61,7 @@ int main(int argc, char *argv[]) {
     }
     Logger::iniciar(config.obtenerModoDebug());
     Observatorio observatorio(config);
-    observatorio.ronda();
+    observatorio.simular();
 
     Logger::terminar();
     return 0;
