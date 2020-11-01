@@ -14,4 +14,4 @@ add_executable(
         logger/Logger.cpp logger/Logger.h
         observatorio/Ajustador.cpp observatorio/Ajustador.h
         main.cpp
-)
+        concu/MemoriaCompartida.cpp concu/MemoriaCompartida.h)
