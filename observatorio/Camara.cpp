@@ -6,16 +6,17 @@
 
 const int MAXIMO_VALOR_PIXEL = 10;
 
-vector<vector<int>> Camara::tomarFoto(){
+vector<vector<int>> Camara::tomarFoto() {
     vector<vector<int>> foto(N, vector<int>(N));
-    for(int fila = 0; fila < N; fila++)
-        for(int col = 0; col < N; col++)
+    for (int fila = 0; fila < N; fila++)
+        for (int col = 0; col < N; col++)
             foto[fila][col] = rand() % MAXIMO_VALOR_PIXEL;
 
     return foto;
 }
 
 Camara::Camara(int dimensiones) {
-    this -> N = dimensiones;
+    this->N = dimensiones;
 }
-Camara::~Camara(){}
+
+Camara::~Camara() {}

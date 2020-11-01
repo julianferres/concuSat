@@ -7,7 +7,7 @@
 
 using namespace std;
 
-const string MSG_PARAMS_INVALIDOS  = "El formato de los parametros ingresados no es valido!\n";
+const string MSG_PARAMS_INVALIDOS = "El formato de los parametros ingresados no es valido!\n";
 const string DESCRIPCION_DE_PARAMS = "Uso: ./concuSat -c $CANTIDAD_DE_CAMARAS -N $TAMAÑO_GRILLA -debug $MODO_DEBUG\n"\
                                      "Descripcion de Parametros:\n"\
                                      " - CANTIDAD_DE_CAMARAS: (Numero entero mayor que 0) Cantidad de camaras a utilizar\n"\
@@ -16,9 +16,9 @@ const string DESCRIPCION_DE_PARAMS = "Uso: ./concuSat -c $CANTIDAD_DE_CAMARAS -N
 
 const int PARAMETROS_ESPERADOS = 6;
 
-Config llenarParams(char *argv[]){
+Config llenarParams(char *argv[]) {
     Config config;
-    if(strcmp(argv[1], "-c") != 0 || strcmp(argv[3], "-N") != 0 || strcmp(argv[5], "-debug") != 0) {
+    if (strcmp(argv[1], "-c") != 0 || strcmp(argv[3], "-N") != 0 || strcmp(argv[5], "-debug") != 0) {
         //Chequeo que los flags de los parametros esten correctamente ingresados
         config.setearBondad(false);
         return config;
@@ -30,17 +30,16 @@ Config llenarParams(char *argv[]){
         config.setearBondad(true); //Bondad es bool y tiene la info de la validez de los parametros
 
     } catch (const invalid_argument &e) {
-            cout << e.what() << "\n";
-            config.setearBondad(false);
+        cout << e.what() << "\n";
+        config.setearBondad(false);
     }
     return config;
 }
 
 
-
-int contadorDeParams(char* argv[]) {
+int contadorDeParams(char *argv[]) {
     int i = 0;
-    while(argv[i]) i++;
+    while (argv[i]) i++;
     return i - 1;
 }
 
@@ -48,13 +47,13 @@ int main(int argc, char *argv[]) {
 
     int cantidadDeParams = contadorDeParams(argv);
 
-    if(cantidadDeParams != PARAMETROS_ESPERADOS) {
+    if (cantidadDeParams != PARAMETROS_ESPERADOS) {
         cout << MSG_PARAMS_INVALIDOS << DESCRIPCION_DE_PARAMS;
         return 0;
     }
     Config config = llenarParams(argv);
 
-    if(!config.chequearBondadParams()) {
+    if (!config.chequearBondadParams()) {
         //Problemas con los parametros
         cout << MSG_PARAMS_INVALIDOS << DESCRIPCION_DE_PARAMS;
         return 0;

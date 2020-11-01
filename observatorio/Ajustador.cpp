@@ -19,35 +19,34 @@
 // Que en si lo que hace es suavizar la matriz (le baja un poco los picos y depresiones)
 vector<vector<int>> Ajustador::ajustar(vector<vector<int>> imagen) {
 
-    int N = (int)imagen.size();
+    int N = (int) imagen.size();
     vector<vector<int>> vectorAjustado(N, vector<int>(N));
 
-    for(int row = 0; row < N; row++)
-        for(int col = 0; col < N; col++){
-            int cnt = 1, sumaPonderada = 2*imagen[row][col];
+    for (int row = 0; row < N; row++)
+        for (int col = 0; col < N; col++) {
+            int cnt = 1, sumaPonderada = 2 * imagen[row][col];
 
-            if(row > 0){ //Tiene vecino superior
-                sumaPonderada += imagen[row-1][col];
+            if (row > 0) { //Tiene vecino superior
+                sumaPonderada += imagen[row - 1][col];
                 cnt++;
             }
-            if(col < N-1){ //Tiene vecino derecho
-                sumaPonderada += imagen[row][col+1];
+            if (col < N - 1) { //Tiene vecino derecho
+                sumaPonderada += imagen[row][col + 1];
                 cnt++;
             }
-            if(row < N-1){ //Tiene vecino inferior
-                sumaPonderada += imagen[row+1][col];
+            if (row < N - 1) { //Tiene vecino inferior
+                sumaPonderada += imagen[row + 1][col];
                 cnt++;
             }
-            if(col > 0){ //Tiene vecino izquierdo
-                sumaPonderada += imagen[row][col-1];
+            if (col > 0) { //Tiene vecino izquierdo
+                sumaPonderada += imagen[row][col - 1];
                 cnt++;
             }
 
-            vectorAjustado[row][col] = sumaPonderada/(cnt*2);
+            vectorAjustado[row][col] = sumaPonderada / (cnt * 2);
         }
 
     return vectorAjustado;
-
 
 
 }

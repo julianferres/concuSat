@@ -6,6 +6,7 @@
 #define CONCUSAT_AJUSTADOR_H
 
 #include <vector>
+
 using namespace std;
 
 class Ajustador {

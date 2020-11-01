@@ -14,15 +14,23 @@
 class Config {
 public:
     Config();
+
     ~Config();
 
     void setearBondad(bool bondad);
+
     void setearCamaras(int camaras);
+
     void setearDimensiones(int dimensiones);
+
     [[nodiscard]] int obtenerCamaras() const;
+
     [[nodiscard]] int obtenerDimensiones() const;
+
     void setearModoDebug(int modoDebug);
+
     [[nodiscard]] int obtenerModoDebug() const;
+
     [[nodiscard]] bool chequearBondadParams() const;
 
 private:

@@ -5,19 +5,21 @@
 #include "Config.h"
 
 Config::Config() = default;
+
 Config::~Config() = default;
 
 void Config::setearBondad(bool bondad) {
-    this->bondadDeParams = bondad && ( c > 0 &&
-                                       N > 0 &&
-                                       modoDebug >= 0 &&
-                                       modoDebug <= 1 );
+    this->bondadDeParams = bondad && (c > 0 &&
+                                      N > 0 &&
+                                      modoDebug >= 0 &&
+                                      modoDebug <= 1);
 }
 
 //Getters y setters a piaccere
-void Config::setearCamaras(int camaras){
+void Config::setearCamaras(int camaras) {
     this->c = camaras;
 }
+
 int Config::obtenerCamaras() const {
     return c;
 }
@@ -25,6 +27,7 @@ int Config::obtenerCamaras() const {
 void Config::setearDimensiones(int dimensiones) {
     this->N = dimensiones;
 }
+
 int Config::obtenerDimensiones() const {
     return N;
 }
@@ -32,10 +35,11 @@ int Config::obtenerDimensiones() const {
 void Config::setearModoDebug(int modoDbg) {
     this->modoDebug = modoDbg;
 }
+
 int Config::obtenerModoDebug() const {
     return modoDebug;
 }
 
-bool Config::chequearBondadParams() const{
+bool Config::chequearBondadParams() const {
     return bondadDeParams;
 }
