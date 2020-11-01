@@ -11,7 +11,7 @@ using namespace std;
 typedef vector<vector<vector<int>>> vvvi;
 // Abreviatura para ahorrar espacio
 
-#include "../concu/MemoriaCompartida.h"
+#include "../concu/memoria/MemoriaCompartida.h"
 #include "../config/Config.h"
 #include "../logger/Logger.h"
 #include "../observatorio/Camara.h"
@@ -43,7 +43,11 @@ public:
     //    Este metodo recibe las imagenes ajustadas (de tamano NxN) y se ocupa
     //    de emplear un algortimo que las combine (o aplane), retornando por
     //    stdout el resultado final
-    void aplanar(vvvi imagenes);
+    void aplanar(vvvi imagenes) const;
+
+    //    Libera recursos de una ronda en particular
+    void liberarRecursos();
+
 
 private:
     int c;

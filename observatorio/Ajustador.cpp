@@ -3,6 +3,8 @@
 //
 
 #include "Ajustador.h"
+#include "../concu/señales/AjustadorHandlerSIGINT.h"
+#include "../concu/señales/SignalHandler.h"
 
 
 //Mi version de ajustar "suaviza la imagen recibida", poniendo el promedio
@@ -18,6 +20,12 @@
 // [0   0.5   0]
 // Que en si lo que hace es suavizar la matriz (le baja un poco los picos y depresiones)
 vector<vector<int>> Ajustador::ajustar(vector<vector<int>> imagen) {
+    // event handler para la senial SIGINT (-2)
+    AjustadorHandlerSIGINT sigint_handler;
+    // se registra el event handler declarado antes
+    SignalHandler::getInstance()->registrarHandler(SIGINT, &sigint_handler);
+
+    // El ajustador va a terminar su trabajo independientemente de si se recibe un SIGINT
 
     int N = (int) imagen.size();
     vector<vector<int>> vectorAjustado(N, vector<int>(N));

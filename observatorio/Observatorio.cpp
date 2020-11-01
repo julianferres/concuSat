@@ -4,12 +4,12 @@
 #include "Observatorio.h"
 #include <unistd.h>
 #include <cstdlib>
-#include <wait.h>
-#include <sys/types.h>
 #include <sys/wait.h>
+#include "../concu/señales/ObservatorioHandlerSIGINT.h"
+#include "../concu/señales/SignalHandler.h"
+#define SEPARADOR cout << "======================================" << endl
 
-
-vector<vector<int>> vectorizar(int *fotoHijo, int nHijo) {
+vector<vector<int>> vectorizar(const int *fotoHijo, int nHijo) {
     vector<vector<int>> ans(nHijo, vector<int>(nHijo));
     for (int i = 0; i < nHijo * nHijo; ++i) {
         ans[i / nHijo][i % nHijo] = fotoHijo[i];
@@ -26,7 +26,9 @@ Observatorio::~Observatorio() = default;
 
 
 //Promedia las entradas de las n camaras para obtener una imagen final
-void Observatorio::aplanar(vvvi imagenes) {
+void Observatorio::aplanar(vvvi imagenes) const {
+    cout << "Comenzando Aplanado..." << endl;
+    LOG_INFO("Comenzando Aplanado...\n");
     vector<vector<int>> imagenAplanada(N, vector<int>(N));
 
     for (int row = 0; row < N; row++)
@@ -38,36 +40,62 @@ void Observatorio::aplanar(vvvi imagenes) {
             imagenAplanada[row][col] = suma / c;
         }
 
-    LOG_INFO("Se termino de Aplanar");
     for (int row = 0; row < N; row++)
         for (int col = 0; col < N; col++)
             cout << imagenAplanada[row][col] << " \n"[col == N - 1];
-    LOG_DEBUG("Se imprimio por salida estandar la imagen de la ");
 
+    LOG_INFO("Se termino de Aplanar");
+    cout << "Finalizó Aplanado" << endl;
+}
+
+//Deja limpios los vectores de solicitud de memoria compartida que una ronda usa
+void Observatorio::liberarRecursos() {
+    memCompartidas.clear();
+    memCompartidasCantidad.clear();
 }
 
 void Observatorio::simular() {
     LOG_DEBUG("Observatorio. Mi pid es: " + to_string(getpid()));
 
-    for (long long rondas = 0; rondas < 1; rondas++) {
-        //Por ahora simulo 3 rondas, despues tnego que hacerlo
-        //Infinito y cerrarlo con SIGINT
-        ronda(rondas);
+    // event handler para la senial SIGINT (-2)
+    AjustadorHandlerSIGINT sigint_handler;
+    // se registra el event handler declarado antes
+    SignalHandler::getInstance()->registrarHandler(SIGINT, &sigint_handler);
 
+    // mientras no se reciba la senial SIGINT, el proceso realiza su trabajo
+    long long nroRonda = 1;
+    while (sigint_handler.getGracefulQuit() == 0) {
+        LOG_INFO("Inicia la ronda numero: " + to_string(nroRonda));
+        SEPARADOR;
+        cout << "Comenzando ronda numero " + to_string(nroRonda) << "\n";
+        SEPARADOR;
+        ronda(nroRonda);
+        LOG_INFO("Finalizó la ronda numero: " + to_string(nroRonda));
+        cout << "Finalizó ronda numero " + to_string(nroRonda) << "\n";
+
+        nroRonda++;
     }
+    LOG_INFO("Se recibio una interrupcion, terminando...");
+    liberarRecursos();
+
+    // se recibio la senial SIGINT, el proceso termina
+    SignalHandler::destruir();
 }
 
 void Observatorio::ronda(long long numeroRonda) {
     LOG_INFO("Comenzando ronda numero " + to_string(numeroRonda));
+    sleep(4);
     vvvi imagenes;
     Camara camara(N);
-    vector<vector<int>> imagen = camara.tomarFoto();
+    vector<vector<int>> imagen;
 
     string archivo = "/bin/ls";
 
     for (int nCamara = 0; nCamara < c; nCamara++) { //Lanzo los procesos hijos
         // codigo del padre
         try {
+            imagen = camara.tomarFoto();
+
             MemoriaCompartida<int> bufferCantidad(archivo, nCamara, 1); //Por aca va el N
             MemoriaCompartida<int> buffer(archivo, c + nCamara, N * N); //Por aca va el array
 
@@ -149,8 +177,6 @@ void Observatorio::ronda(long long numeroRonda) {
     }
 
     aplanar(imagenes);
-
-    cout << "Todo por ahora\n";
 }
 
 
