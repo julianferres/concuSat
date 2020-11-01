@@ -25,10 +25,10 @@ private:
 
 public:
     MemoriaCompartida ();
-    void crear ( const std::string& archivo,const char letra );
+    void crear ( const std::string& archivo,const int letra );
     void liberar ();
 
-    MemoriaCompartida ( const std::string& archivo,const char letra, int cantidad );
+    MemoriaCompartida ( const std::string& archivo,const int letra, int cantidad );
     MemoriaCompartida ( const MemoriaCompartida& origen );
     ~MemoriaCompartida ();
     MemoriaCompartida<T>& operator= ( const MemoriaCompartida& origen );
@@ -39,7 +39,7 @@ public:
 template <class T> MemoriaCompartida<T>::MemoriaCompartida ():shmId(0),ptrDatos(NULL) {
 }
 
-template <class T> void MemoriaCompartida<T>::crear ( const std::string& archivo,const char letra ) {
+template <class T> void MemoriaCompartida<T>::crear ( const std::string& archivo,const int letra ) {
     key_t clave = ftok ( archivo.c_str(),letra );
 
     if ( clave > 0 ) {
@@ -77,7 +77,7 @@ template <class T> void MemoriaCompartida<T>::liberar() {
     }
 }
 
-template <class T> MemoriaCompartida<T>::MemoriaCompartida ( const std::string& archivo,const char letra, const int cantidad):shmId(0),ptrDatos(NULL) {
+template <class T> MemoriaCompartida<T>::MemoriaCompartida ( const std::string& archivo,const int letra, const int cantidad):shmId(0),ptrDatos(NULL) {
     key_t clave = ftok ( archivo.c_str(),letra );
 
     if ( clave > 0 ) {

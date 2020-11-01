@@ -60,26 +60,50 @@ void Observatorio::simular(){
 void Observatorio::ronda(long long numeroRonda) {
     LOG_INFO("Comenzando ronda numero " + to_string(numeroRonda));
     vvvi imagenes;
-    vector<pid_t> pidsAjustadores(c);
+    Camara camara(N);
+    vector<vector<int>> imagen = camara.tomarFoto();
 
-    for(int nCamara = 0; nCamara < c; nCamara++){
+    string archivo = "/bin/ls";
 
-        Camara camara(N);
-        vector<vector<int>> imagen = camara.tomarFoto();
+    for(int nCamara = 0; nCamara < c; nCamara++) { //Lanzo los procesos hijos
+            // codigo del padre
+        try {
+            MemoriaCompartida<int> bufferCantidad( archivo, nCamara, 1); //Por aca va el N
+            MemoriaCompartida<int> buffer ( archivo,c+nCamara, N*N); //Por aca va el array
 
-        string archivo = "/bin/ls";
+            memCompartidasCantidad.push_back(bufferCantidad);
+            memCompartidas.push_back(buffer);
+
+            bufferCantidad.escribir(&N, 1);
+            int fotoPadre[N*N];
+            for(int row = 0; row < N; row++)
+                for(int col = 0; col < N; col++)
+                    fotoPadre[row*N+col] = imagen[row][col];
+            cout << "Mande la foto: \n";
+
+            for(int row = 0; row < N; row++){
+                for(int col = 0; col < N; col++){
+                    cout << imagen[row][col] << " \n"[col == N-1];
+                }
+            }
+            cout << "\n";
+
+            buffer.escribir(fotoPadre, N*N);
+        } catch ( string& mensaje ) {
+            cerr << mensaje << endl;
+        }
+
         pid_t procId = fork();
-
         if ( procId == 0 ) {
             // codigo del hijo
 
             try {
                 // En este paso el N, porque sino el proceso hijo no deberia saber cuanto es
-                MemoriaCompartida<int> bufferCantidad ( archivo,'A', 1);
+                MemoriaCompartida<int> bufferCantidad ( archivo, nCamara, 1);
                 int nHijo[1];
                 bufferCantidad.leer(nHijo, 1);
                 cout << "Hijo: Recibi un N = " << nHijo[0] << endl;
-                MemoriaCompartida<int> buffer ( archivo,'B', nHijo[0]*nHijo[0]);
+                MemoriaCompartida<int> buffer ( archivo,c+nCamara, nHijo[0]*nHijo[0]);
                 int fotoHijo[(nHijo[0])*(nHijo[0])];
                 buffer.leer(fotoHijo, nHijo[0]*nHijo[0]);
 
@@ -100,7 +124,7 @@ void Observatorio::ronda(long long numeroRonda) {
 
                 buffer.escribir(fotoHijo, nHijo[0] * nHijo[0]);
 
-                sleep ( 4 ); //Lo pongo a dormir porque sino termina muy rapido
+                sleep ( 3 ); //Lo pongo a dormir porque sino termina muy rapido
 
                 cout << "Hijo: fin del proceso" << endl;
             } catch ( string& mensaje ) {
@@ -108,45 +132,19 @@ void Observatorio::ronda(long long numeroRonda) {
             }
 
             exit(0);
-        } else {
-            // codigo del padre
-            try {
 
-
-                MemoriaCompartida<int> bufferCantidad( archivo, 'A', 1); //Por aca va el N
-                MemoriaCompartida<int> buffer ( archivo,'B', N*N); //Por aca va el array
-
-                bufferCantidad.escribir(&N, 1);
-                int fotoPadre[N*N];
-                for(int row = 0; row < N; row++)
-                    for(int col = 0; col < N; col++)
-                        fotoPadre[row*N+col] = imagen[row][col];
-                cout << "Mande la foto: \n";
-
-                for(int row = 0; row < N; row++){
-                    for(int col = 0; col < N; col++){
-                        cout << imagen[row][col] << " \n"[col == N-1];
-                    }
-                }
-                cout << "\n";
-
-
-                buffer.escribir(fotoPadre, N*N);
-
-                int status;
-                waitpid(procId, &status, 0); //Espero a que el hijo termine de procesar
-
-                buffer.leer(fotoPadre, N*N);
-                imagen = vectorizar(fotoPadre, N);
-
-                // espera a que termine el hijo
-                cout << "Padre: esperando a que termine el hijo" << endl;
-                wait(nullptr);
-            } catch ( string& mensaje ) {
-                cerr << mensaje << endl;
-            }
         }
+    }
 
+    for (int nCamara = 0; nCamara < c; nCamara++) {
+        cout << "Padre: Termino el " << nCamara+1 << "° hijo\n";
+        waitpid(-1, nullptr, 0);
+    }
+
+    for(int nCamara = 0; nCamara < c; nCamara++) {
+        int fotoPadre[N*N];
+        memCompartidas[nCamara].leer(fotoPadre, N*N);
+        imagen = vectorizar(fotoPadre, N);
         imagenes.push_back(imagen);
     }
 

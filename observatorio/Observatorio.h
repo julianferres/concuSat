@@ -47,6 +47,8 @@ public:
 private:
     int c;
     int N;
+    vector<MemoriaCompartida<int>> memCompartidasCantidad;
+    vector<MemoriaCompartida<int>> memCompartidas;
 };
 
 
