@@ -17,6 +17,9 @@ typedef vector<vector<vector<int>>> vvvi;
 #include "../observatorio/Camara.h"
 #include "Ajustador.h"
 #include "../serializador/SerializadorFoto.h"
+#include "../concu/fifos/FifoLectura.h"
+#include "../concu/fifos/FifoEscritura.h"
+
 
 #ifndef CONCUSAT_OBSERVATORIO_H
 #define CONCUSAT_OBSERVATORIO_H
@@ -41,20 +44,28 @@ public:
     //    imagenes resultantes, y el posterior aplando de la imagen
     void ronda(long long numeroRonda);
 
-    //    Este metodo recibe las imagenes ajustadas (de tamano NxN) y se ocupa
+    //    Este metodo recibe las fotos ajustadas (de tamano NxN) y se ocupa
     //    de emplear un algortimo que las combine (o aplane), retornando por
     //    stdout el resultado final
-    void aplanar(vvvi imagenes) const;
+    void aplanar(vvvi fotos) const;
 
     //    Libera recursos de una ronda en particular
     void liberarRecursos();
+
+    //Wrapper para leer del fifo, descserializar y logear algunas cosas
+    vector<vector<int>> leerFifo(string actor, int nCamara);
+
+    //Wrapper para serializar, escribir del fifo y logear algunas cosas
+    void escribirFifo(const string& actor, int nCamara, const vector<vector<int>>& foto);
 
 
 private:
     int c;
     int N;
-    vector<MemoriaCompartida<int>> memCompartidasCantidad;
-    vector<MemoriaCompartida<int>> memCompartidas;
+    vector<FifoLectura> fifosLectura;
+    vector<FifoEscritura> fifosEscritura;
+    int FIFO_BUFFSIZE;
+    const string ARCHIVO_FIFO = "/tmp/concuSat_fifo";
 };
 
 #endif // CONCUSAT_OBSERVATORIO_H

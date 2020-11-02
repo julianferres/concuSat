@@ -11,9 +11,15 @@ FifoLectura::~FifoLectura() {
 }
 
 void FifoLectura::abrir() {
-    fd = open(nombre.c_str(), O_RDONLY);
+    do { fd = open(nombre.c_str(), O_RDONLY); }
+    while (fd == -1 && errno == EINTR);
 }
 
 ssize_t FifoLectura::leer(void *buffer, const ssize_t buffsize) const {
-    return read(fd, buffer, buffsize);
+    ssize_t bytesLeidos;
+
+    do { bytesLeidos = read(fd, buffer, buffsize); }
+    while (bytesLeidos == -1 && errno == EINTR);
+
+    return bytesLeidos;
 }

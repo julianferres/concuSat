@@ -11,9 +11,15 @@ FifoEscritura::~FifoEscritura() {
 }
 
 void FifoEscritura::abrir() {
-    fd = open(nombre.c_str(), O_WRONLY);
+    do { fd = open(nombre.c_str(), O_WRONLY); }
+    while (fd == -1 && errno == EINTR);
 }
 
 ssize_t FifoEscritura::escribir(const void *buffer, const ssize_t buffsize) const {
-    return write(fd, buffer, buffsize);
+    ssize_t bytesEscritos;
+
+    do { bytesEscritos = write(fd, buffer, buffsize); }
+    while (bytesEscritos == -1 && errno == EINTR);
+
+    return bytesEscritos;
 }

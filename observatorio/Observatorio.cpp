@@ -9,41 +9,42 @@
 #include "../concu/señales/SignalHandler.h"
 
 #define SEPARADOR cout << "======================================" << endl
-
-vector<vector<int>> vectorizar(const int *fotoHijo, int nHijo) {
-    vector<vector<int>> ans(nHijo, vector<int>(nHijo));
-    for (int i = 0; i < nHijo * nHijo; ++i) {
-        ans[i / nHijo][i % nHijo] = fotoHijo[i];
-    }
-    return ans;
-}
+#define SEPARADOR_PUNTO cout << "......................................" << endl
 
 Observatorio::Observatorio(const Config &config) {
     c = config.obtenerCamaras();
     N = config.obtenerDimensiones();
+
+    //Estimo que voy a tener aprox 5 chars para cada numero (4 del numero <10000 mas el espacio)
+    //Entonces uso 6 para asegurarme que no lo voy a desbordad y el +1 por la dimension que va
+    //Al principio
+    FIFO_BUFFSIZE = 6 * (N * N + 1);
 }
 
 Observatorio::~Observatorio() = default;
 
 
-//Promedia las entradas de las n camaras para obtener una imagen final
-void Observatorio::aplanar(vvvi imagenes) const {
+//Promedia las entradas de las n camaras para obtener una foto final
+void Observatorio::aplanar(vvvi fotos) const {
     cout << "Comenzando Aplanado..." << endl;
     LOG_INFO("Comenzando Aplanado...\n");
-    vector<vector<int>> imagenAplanada(N, vector<int>(N));
+    vector<vector<int>> fotoAplanada(N, vector<int>(N));
 
     for (int row = 0; row < N; row++)
         for (int col = 0; col < N; col++) {
             long suma = 0;
             for (int nCam = 0; nCam < c; nCam++) {
-                suma += imagenes[nCam][row][col];
+                suma += fotos[nCam][row][col];
             }
-            imagenAplanada[row][col] = suma / c;
+            fotoAplanada[row][col] = suma / c;
         }
 
+    SEPARADOR_PUNTO;
+    cout << "IMAGEN APLANADA!!!!\n";
     for (int row = 0; row < N; row++)
         for (int col = 0; col < N; col++)
-            cout << imagenAplanada[row][col] << " \n"[col == N - 1];
+            cout << fotoAplanada[row][col] << " \n"[col == N - 1];
+    SEPARADOR_PUNTO;
 
     LOG_INFO("Se termino de Aplanar");
     cout << "Finalizó Aplanado" << endl;
@@ -51,16 +52,54 @@ void Observatorio::aplanar(vvvi imagenes) const {
 
 //Deja limpios los vectores de solicitud de memoria compartida que una ronda usa
 void Observatorio::liberarRecursos() {
-    memCompartidas.clear();
-    memCompartidasCantidad.clear();
+    cout << "Comienzo a eliminar los fifos...\n";
+    for (const auto& canalLectura: fifosLectura){
+        canalLectura.eliminar();
+    }
+    for (const auto& canalEscritura: fifosEscritura){
+        canalEscritura.eliminar();
+    }
+    fifosLectura.clear();
+    fifosEscritura.clear();
+    cout << "Termine de eliminar los fifos.\n";
 }
+
+//Hace las acciones de crear el fifo, leer y deserializar
+vector<vector<int>> Observatorio::leerFifo(string actor, int nCamara){
+    FifoLectura canal ( ARCHIVO_FIFO + to_string(nCamara) );
+    char buffer[FIFO_BUFFSIZE];
+
+    canal.abrir();
+    fifosLectura.push_back(canal);
+    cout << "[" << actor << " - Lector " << nCamara << "] A punto de leer del fifo" << endl;
+    ssize_t bytesLeidos = canal.leer(static_cast<void*>(buffer),FIFO_BUFFSIZE);
+
+    string mensaje = buffer;
+    mensaje.resize ( bytesLeidos );
+    cout << "[" << actor << " Lector " << nCamara << "] Lei el dato del fifo: " << mensaje << endl;
+    canal.cerrar();
+    return SerializadorFoto::deserializarFoto(mensaje);
+}
+
+void Observatorio::escribirFifo(const string& actor, int nCamara, const vector<vector<int>>& foto){
+    FifoEscritura canal(ARCHIVO_FIFO + to_string(nCamara));
+
+    canal.abrir();
+    fifosEscritura.push_back(canal);
+    cout << "[" << actor << " - Escritor " << nCamara << "] Se abrio el Canal de escritura" << endl;
+    string fotoSerializada = SerializadorFoto::serializarFoto(foto);
+    canal.escribir(static_cast<const void *>(fotoSerializada.c_str()), fotoSerializada.length());
+    cout << "[" << actor << " - Escritor " << nCamara << "] Escribi el mensaje " << fotoSerializada << " en el fifo" << endl;
+    canal.cerrar();
+}
+
 
 void Observatorio::simular() {
 
     LOG_DEBUG("Observatorio. Mi pid es: " + to_string(getpid()));
 
     // event handler para la senial SIGINT (-2)
-    AjustadorHandlerSIGINT sigint_handler;
+    ObservatorioHandlerSIGINT sigint_handler;
     // se registra el event handler declarado antes
     SignalHandler::getInstance()->registrarHandler(SIGINT, &sigint_handler);
 
@@ -78,7 +117,6 @@ void Observatorio::simular() {
         nroRonda++;
     }
     LOG_INFO("Se recibio una interrupcion, terminando...");
-    liberarRecursos();
 
     // se recibio la senial SIGINT, el proceso termina
     SignalHandler::destruir();
@@ -86,99 +124,58 @@ void Observatorio::simular() {
 
 void Observatorio::ronda(long long numeroRonda) {
     LOG_INFO("Comenzando ronda numero " + to_string(numeroRonda));
-    sleep(4);
-    vvvi imagenes;
+    vvvi fotos;
     Camara camara(N);
-    vector<vector<int>> imagen;
+    vector<vector<int>> foto;
 
-    string archivo = "/bin/ls";
 
     for (int nCamara = 0; nCamara < c; nCamara++) { //Lanzo los procesos hijos
-        // codigo del padre
-        try {
-            imagen = camara.tomarFoto();
-
-            MemoriaCompartida<int> bufferCantidad(archivo, nCamara, 1); //Por aca va el N
-            MemoriaCompartida<int> buffer(archivo, c + nCamara, N * N); //Por aca va el array
-
-            memCompartidasCantidad.push_back(bufferCantidad);
-            memCompartidas.push_back(buffer);
-
-            bufferCantidad.escribir(&N, 1);
-            int fotoPadre[N * N];
-            for (int row = 0; row < N; row++)
-                for (int col = 0; col < N; col++)
-                    fotoPadre[row * N + col] = imagen[row][col];
-            cout << "Mande la foto: \n";
-
-            for (int row = 0; row < N; row++) {
-                for (int col = 0; col < N; col++) {
-                    cout << imagen[row][col] << " \n"[col == N - 1];
-                }
-            }
-            cout << "\n";
-
-            buffer.escribir(fotoPadre, N * N);
-        } catch (string &mensaje) {
-            cerr << mensaje << endl;
-        }
-
         pid_t procId = fork();
         if (procId == 0) {
             // codigo del hijo
 
             try {
-                // En este paso el N, porque sino el proceso hijo no deberia saber cuanto es
-                MemoriaCompartida<int> bufferCantidad(archivo, nCamara, 1);
-                int nHijo[1];
-                bufferCantidad.leer(nHijo, 1);
-                cout << "Hijo: Recibi un N = " << nHijo[0] << endl;
-                MemoriaCompartida<int> buffer(archivo, c + nCamara, nHijo[0] * nHijo[0]);
-                int fotoHijo[(nHijo[0]) * (nHijo[0])];
-                buffer.leer(fotoHijo, nHijo[0] * nHijo[0]);
+                //Uso nCamara para padre->hijo
+                vector<vector<int>> fotoHijoVector = leerFifo("Hijo", nCamara);
 
-                vector<vector<int>> fotoHijoVector = vectorizar(fotoHijo, nHijo[0]);
+                sleep(2); //Lo pongo a dormir porque sino termina muy rapido
+                vector<vector<int>> fotoAjustada = Ajustador::ajustar(fotoHijoVector);
 
-                cout << "Recibi la foto: \n";
-                for (int row = 0; row < nHijo[0]; row++) {
-                    for (int col = 0; col < nHijo[0]; col++) {
-                        cout << fotoHijoVector[row][col] << " \n"[col == nHijo[0] - 1];
-                    }
-                }
-                cout << "\n";
+                //Hago un offset de c para hijo -> padre
+                escribirFifo("Hijo", nCamara + c, fotoHijoVector);
 
-                vector<vector<int>> imagenAjustada = Ajustador::ajustar(fotoHijoVector);
-                for (int row = 0; row < N; row++)
-                    for (int col = 0; col < N; col++)
-                        fotoHijo[row * N + col] = imagenAjustada[row][col];
+                cout << "[Hijo - Lector " << nCamara << "] Fin del proceso" << endl;
 
-                buffer.escribir(fotoHijo, nHijo[0] * nHijo[0]);
-
-                sleep(3); //Lo pongo a dormir porque sino termina muy rapido
-
-                cout << "Hijo: fin del proceso" << endl;
             } catch (string &mensaje) {
                 cerr << mensaje << endl;
             }
 
             exit(0);
+        } else {
+            try {
+                foto = camara.tomarFoto();
 
+                //Uso nCamara para padre->hijo
+                escribirFifo("Padre", nCamara, foto);
+
+                //Hago un offset de c para hijo -> padre
+                fotos.push_back(leerFifo("Padre", nCamara + c));
+
+            } catch (string &mensaje) {
+                cerr << mensaje << endl;
+            }
         }
     }
 
+    //Espero a que terminen todos
     for (int nCamara = 0; nCamara < c; nCamara++) {
         cout << "Padre: Termino el " << nCamara + 1 << "° hijo\n";
         waitpid(-1, nullptr, 0);
     }
 
-    for (int nCamara = 0; nCamara < c; nCamara++) {
-        int fotoPadre[N * N];
-        memCompartidas[nCamara].leer(fotoPadre, N * N);
-        imagen = vectorizar(fotoPadre, N);
-        imagenes.push_back(imagen);
-    }
+    liberarRecursos();
 
-    aplanar(imagenes);
+    aplanar(fotos);
 }
 
 

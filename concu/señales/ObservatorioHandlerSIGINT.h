@@ -13,17 +13,17 @@
 
 using namespace std;
 
-class AjustadorHandlerSIGINT : public EventHandler {
+class ObservatorioHandlerSIGINT : public EventHandler {
 
 private:
     sig_atomic_t gracefulQuit;
 
 public:
 
-    AjustadorHandlerSIGINT() : gracefulQuit(0) {
+    ObservatorioHandlerSIGINT() : gracefulQuit(0) {
     }
 
-    ~AjustadorHandlerSIGINT() {
+    ~ObservatorioHandlerSIGINT() {
     }
 
     virtual int handleSignal(int signum) {
