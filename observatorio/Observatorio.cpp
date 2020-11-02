@@ -7,6 +7,7 @@
 #include <sys/wait.h>
 #include "../concu/señales/ObservatorioHandlerSIGINT.h"
 #include "../concu/señales/SignalHandler.h"
+
 #define SEPARADOR cout << "======================================" << endl
 
 vector<vector<int>> vectorizar(const int *fotoHijo, int nHijo) {
@@ -55,6 +56,7 @@ void Observatorio::liberarRecursos() {
 }
 
 void Observatorio::simular() {
+
     LOG_DEBUG("Observatorio. Mi pid es: " + to_string(getpid()));
 
     // event handler para la senial SIGINT (-2)

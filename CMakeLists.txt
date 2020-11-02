@@ -14,4 +14,4 @@ add_executable(
         logger/Logger.cpp logger/Logger.h
         observatorio/Ajustador.cpp observatorio/Ajustador.h
         main.cpp
-        concu/memoria/MemoriaCompartida.cpp concu/memoria/MemoriaCompartida.h concu/señales/EventHandler.h concu/señales/SignalHandler.cpp concu/señales/SignalHandler.h concu/señales/ObservatorioHandlerSIGINT.h concu/señales/AjustadorHandlerSIGINT.h concu/fifos/Fifo.cpp concu/fifos/Fifo.h concu/fifos/FifoEscritura.cpp concu/fifos/FifoEscritura.h concu/fifos/FifoLectura.cpp concu/fifos/FifoLectura.h)
+        concu/memoria/MemoriaCompartida.cpp concu/memoria/MemoriaCompartida.h concu/señales/EventHandler.h concu/señales/SignalHandler.cpp concu/señales/SignalHandler.h concu/señales/ObservatorioHandlerSIGINT.h concu/señales/AjustadorHandlerSIGINT.h concu/fifos/Fifo.cpp concu/fifos/Fifo.h concu/fifos/FifoEscritura.cpp concu/fifos/FifoEscritura.h concu/fifos/FifoLectura.cpp concu/fifos/FifoLectura.h serializador/SerializadorFoto.cpp serializador/SerializadorFoto.h)
