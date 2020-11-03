@@ -64,7 +64,7 @@ void Observatorio::simular() {
     LOG_DEBUG("Observatorio. Mi pid es: " + to_string(getpid()));
 
     // event handler para la senial SIGINT (-2)
-    AjustadorHandlerSIGINT sigint_handler;
+    ObservatorioHandlerSIGINT sigint_handler;
     // se registra el event handler declarado antes
     SignalHandler::getInstance()->registrarHandler(SIGINT, &sigint_handler);
 
