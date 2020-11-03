@@ -16,6 +16,12 @@ vector<vector<int>> vectorizar(const int *fotoHijo, int nHijo) {
     }
     return ans;
 }
+void vectorToArray(vector<vector<int>> foto, int* fotoArray, int nHijo){
+    for (int row = 0; row < nHijo; row++)
+        for (int col = 0; col < nHijo; col++)
+            fotoArray[row * nHijo + col] = foto[row][col];
+}
+
 
 Observatorio::Observatorio(const Config &config) {
     c = config.obtenerCamaras();
@@ -103,10 +109,10 @@ void Observatorio::ronda(long long numeroRonda) {
             memCompartidas.push_back(buffer);
 
             bufferCantidad.escribir(&N, 1);
-            int fotoPadre[N * N];
-            for (int row = 0; row < N; row++)
-                for (int col = 0; col < N; col++)
-                    fotoPadre[row * N + col] = imagen[row][col];
+
+            //Convierto el vector a array
+            int fotoPadre[N * N]; vectorToArray(imagen, fotoPadre, N);
+
             cout << "Mande la foto: \n";
 
             for (int row = 0; row < N; row++) {
