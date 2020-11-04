@@ -19,7 +19,7 @@ vector<vector<int>> SerializadorFoto::deserializarFoto(const string &fotoSeriali
     string actNumber;
     int i = 0;
 
-    while (fotoSerializada[i] != ' ') { actNumber += fotoSerializada[i++]; }
+    while (i < fotoSerializada.length() && fotoSerializada[i] != ' ') { actNumber += fotoSerializada[i++]; }
     i++; //Para salir del espacio
     int N = stoi(actNumber);
 
@@ -28,7 +28,7 @@ vector<vector<int>> SerializadorFoto::deserializarFoto(const string &fotoSeriali
     for (int row = 0; row < N; row++)
         for (int col = 0; col < N; col++) {
             actNumber = "";
-            while (fotoSerializada[i] != ' ') { actNumber += fotoSerializada[i++]; }
+            while (i < fotoSerializada.length() && fotoSerializada[i] != ' ') { actNumber += fotoSerializada[i++]; }
 
             i++; //Para salir del espacio
             foto[row][col] = stoi(actNumber);
