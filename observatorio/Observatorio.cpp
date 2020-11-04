@@ -53,6 +53,7 @@ void Observatorio::aplanar(vvvi fotos) const {
 //Deja limpios los vectores de solicitud de memoria compartida que una ronda usa
 void Observatorio::liberarRecursos() {
     cout << "Comienzo a eliminar los fifos...\n";
+    LOG_INFO("Comienzo a eliminar los fifos...");
     for (const auto& canalLectura: fifosLectura){
         canalLectura.eliminar();
     }
@@ -62,6 +63,7 @@ void Observatorio::liberarRecursos() {
     fifosLectura.clear();
     fifosEscritura.clear();
     cout << "Termine de eliminar los fifos.\n";
+    LOG_INFO("Termine de eliminar los fifos");
 }
 
 //Hace las acciones de crear el fifo, leer y deserializar
@@ -71,12 +73,12 @@ vector<vector<int>> Observatorio::leerFifo(string actor, int nCamara){
 
     canal.abrir();
     fifosLectura.push_back(canal);
-    cout << "[" << actor << " - Lector " << nCamara << "] A punto de leer del fifo" << endl;
+    LOG_INFO("[" + actor + " - Lector " + to_string(nCamara) +  "] A punto de leer del fifo");
     ssize_t bytesLeidos = canal.leer(static_cast<void*>(buffer),FIFO_BUFFSIZE);
 
     string mensaje = buffer;
     mensaje.resize ( bytesLeidos );
-    cout << "[" << actor << " Lector " << nCamara << "] Lei el dato del fifo: " << mensaje << endl;
+    LOG_DEBUG("[" + actor + " Lector " + to_string(nCamara) + "] Lei el dato del fifo: " + mensaje);
     canal.cerrar();
     return SerializadorFoto::deserializarFoto(mensaje);
 }
@@ -86,10 +88,10 @@ void Observatorio::escribirFifo(const string& actor, int nCamara, const vector<v
 
     canal.abrir();
     fifosEscritura.push_back(canal);
-    cout << "[" << actor << " - Escritor " << nCamara << "] Se abrio el Canal de escritura" << endl;
+    LOG_INFO("[" + actor + " - Escritor " + to_string(nCamara) + "] Se abrio el Canal de escritura");
     string fotoSerializada = SerializadorFoto::serializarFoto(foto);
     canal.escribir(static_cast<const void *>(fotoSerializada.c_str()), fotoSerializada.length());
-    cout << "[" << actor << " - Escritor " << nCamara << "] Escribi el mensaje " << fotoSerializada << " en el fifo" << endl;
+    LOG_DEBUG("[" + actor + " - Escritor " + to_string(nCamara) + "] Escribi el mensaje " + fotoSerializada + " en el fifo");
     canal.cerrar();
 }
 
@@ -144,7 +146,7 @@ void Observatorio::ronda(long long numeroRonda) {
                 //Hago un offset de c para hijo -> padre
                 escribirFifo("Hijo", nCamara + c, fotoHijoVector);
 
-                cout << "[Hijo - Lector " << nCamara << "] Fin del proceso" << endl;
+                LOG_INFO("[Hijo - Lector " + to_string(nCamara) + "] Fin del proceso");
 
             } catch (string &mensaje) {
                 cerr << mensaje << endl;
