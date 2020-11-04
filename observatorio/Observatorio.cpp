@@ -8,6 +8,8 @@
 #include "../concu/señales/ObservatorioHandlerSIGINT.h"
 #include "../concu/señales/SignalHandler.h"
 #define SEPARADOR cout << "======================================" << endl
+#define SEPARADOR_PUNTO cout << "......................................" << endl
+
 
 vector<vector<int>> vectorizar(const int *fotoHijo, int nHijo) {
     vector<vector<int>> ans(nHijo, vector<int>(nHijo));
@@ -35,7 +37,7 @@ Observatorio::~Observatorio() = default;
 void Observatorio::aplanar(vvvi imagenes) const {
     cout << "Comenzando Aplanado..." << endl;
     LOG_INFO("Comenzando Aplanado...\n");
-    vector<vector<int>> imagenAplanada(N, vector<int>(N));
+    vector<vector<int>> fotoAplanada(N, vector<int>(N));
 
     for (int row = 0; row < N; row++)
         for (int col = 0; col < N; col++) {
@@ -43,12 +45,15 @@ void Observatorio::aplanar(vvvi imagenes) const {
             for (int nCam = 0; nCam < c; nCam++) {
                 suma += imagenes[nCam][row][col];
             }
-            imagenAplanada[row][col] = suma / c;
+            fotoAplanada[row][col] = suma / c;
         }
 
+    SEPARADOR_PUNTO;
+    cout << "IMAGEN APLANADA!!!!\n";
     for (int row = 0; row < N; row++)
         for (int col = 0; col < N; col++)
-            cout << imagenAplanada[row][col] << " \n"[col == N - 1];
+            cout << fotoAplanada[row][col] << " \n"[col == N - 1];
+    SEPARADOR_PUNTO;
 
     LOG_INFO("Se termino de Aplanar");
     cout << "Finalizó Aplanado" << endl;
@@ -113,14 +118,7 @@ void Observatorio::ronda(long long numeroRonda) {
             //Convierto el vector a array
             int fotoPadre[N * N]; vectorToArray(imagen, fotoPadre, N);
 
-            cout << "Mande la foto: \n";
-
-            for (int row = 0; row < N; row++) {
-                for (int col = 0; col < N; col++) {
-                    cout << imagen[row][col] << " \n"[col == N - 1];
-                }
-            }
-            cout << "\n";
+            LOG_INFO("[Padre] Mande la foto");
 
             buffer.escribir(fotoPadre, N * N);
         } catch (string &mensaje) {
@@ -136,20 +134,14 @@ void Observatorio::ronda(long long numeroRonda) {
                 MemoriaCompartida<int> bufferCantidad(archivo, nCamara, 1);
                 int nHijo[1];
                 bufferCantidad.leer(nHijo, 1);
-                cout << "Hijo: Recibi un N = " << nHijo[0] << endl;
+                LOG_INFO("[Hijo] comenzando a leer");
                 MemoriaCompartida<int> buffer(archivo, c + nCamara, nHijo[0] * nHijo[0]);
                 int fotoHijo[(nHijo[0]) * (nHijo[0])];
                 buffer.leer(fotoHijo, nHijo[0] * nHijo[0]);
 
                 vector<vector<int>> fotoHijoVector = vectorizar(fotoHijo, nHijo[0]);
 
-                cout << "Recibi la foto: \n";
-                for (int row = 0; row < nHijo[0]; row++) {
-                    for (int col = 0; col < nHijo[0]; col++) {
-                        cout << fotoHijoVector[row][col] << " \n"[col == nHijo[0] - 1];
-                    }
-                }
-                cout << "\n";
+                LOG_INFO( "[Hijo] Recibi la foto, procedo a ajustarla");
 
                 vector<vector<int>> imagenAjustada = Ajustador::ajustar(fotoHijoVector);
                 for (int row = 0; row < N; row++)

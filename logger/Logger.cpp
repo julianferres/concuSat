@@ -37,7 +37,9 @@ void Logger::escribir(int _modoDebug, string msg, string archivo, long linea) {
     // la hora y el mensaje
     string timestamp = obtenerTimestamp();
     string nombreArchivo = limpiarPathArchivo(archivo);
-    int largoMetadata = stringsLoggerType[_modoDebug].size() + nombreArchivo.size();
+
+    //Sumas de longitudes para poder acomodar el padding
+    int largoMetadata = stringsLoggerType[_modoDebug].size() + nombreArchivo.size() + (linea >= 100);
     string padding(AJUSTE - largoMetadata + _modoDebug, ' ');
 
     outstream << "[" << stringsLoggerType[_modoDebug] << "]" << " "[_modoDebug];
